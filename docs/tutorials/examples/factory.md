@@ -62,11 +62,11 @@ Let's examine the core components of a factory contract:
 <CodeTabs>
   <Language value="rust" language="rust">
     <Github fname="deploy.rs"
-            url="https://github.com/near-examples/factory-rust/blob/main/src/deploy.rs"
-            start="14" end="66" />
+            url="https://github.com/near-examples/factory-rust/blob/add-global-contracts/src/lib.rs"
+            start="54" end="93" />
     <Github fname="manager.rs"
-            url="https://github.com/near-examples/factory-rust/blob/main/src/manager.rs"
-            start="5" end="19" />
+            url="https://github.com/near-examples/factory-rust/blob/add-global-contracts/src/manager.rs"
+            start="7" end="23" />
   </Language>
 </CodeTabs>
 
@@ -82,6 +82,7 @@ The factory implements two essential methods:
 
 ## Implementing Contract Deployment
 
+
 When you call `create_factory_subaccount_and_deploy`, the factory:
 
 1. **Creates the sub-account** using NEAR's account creation APIs
@@ -91,6 +92,7 @@ When you call `create_factory_subaccount_and_deploy`, the factory:
 
 ```bash
 near call <factory-account> create_factory_subaccount_and_deploy '{ "name": "sub", "beneficiary": "<account-to-be-beneficiary>"}' --deposit 1.24 --accountId <account-id> --gas 300000000000000
+
 ```
 
 The deposit covers:
@@ -132,6 +134,7 @@ export BYTES=`cat ./path/to/new-contract.wasm | base64`
 
 # Update the factory's stored contract
 near call <factory-account> update_stored_contract "$BYTES" --base64 --accountId <factory-account> --gas 30000000000000
+
 ```
 
 ---
@@ -140,9 +143,11 @@ near call <factory-account> update_stored_contract "$BYTES" --base64 --accountId
 
 ### 1. Deploy the Factory
 
+
 ```bash
 ./deploy.sh
 ```
+
 
 Check the deployment:
 ```bash
@@ -162,6 +167,7 @@ near call <factory-account> create_factory_subaccount_and_deploy '{ "name": "tes
 near view test-instance.<factory-account> get_beneficiary
 # Expected: alice.testnet
 ```
+
 
 ---
 
@@ -196,6 +202,7 @@ Instead of using a factory, you could create accounts directly, but this require
 - Manual contract deployment for each instance
 - Separate storage costs for each deployment
 - More complex coordination between deployments
+
 
 ### Proxy Pattern
 For upgradeable contracts, consider the proxy pattern where:
@@ -232,3 +239,4 @@ This tutorial works with:
 :::
 
 The factory pattern provides a powerful way to scale smart contract deployment on NEAR. By understanding the account limitations, gas considerations, and implementation details, you can build efficient factory contracts that automate and standardize your deployment process.
+
